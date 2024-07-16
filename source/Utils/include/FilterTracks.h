@@ -61,6 +61,7 @@ private:
    std::string _OutputTrackCollection {};
 
    bool _BarrelOnly = false;
+   bool _HasCaloState = false;
 
    //! Cut off for total number of hits
    int _NHitsTotal = 7;

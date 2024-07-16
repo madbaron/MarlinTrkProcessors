@@ -25,6 +25,12 @@ FilterTracks::FilterTracks()
 			     _BarrelOnly
 			      );  
   
+  registerProcessorParameter("HasCaloState",
+		  	     "If true, just keep tracks that have a TrackState at the Calorimeter surface",
+			     _HasCaloState,
+			     _HasCaloState
+			      );  
+
   registerProcessorParameter("NHitsTotal",
 		  	     "Minimum number of hits on track",
 			     _NHitsTotal,
@@ -139,6 +145,17 @@ void FilterTracks::processEvent( LCEvent * evt )
     float chi2spatial = trk->getChi2();
 
     int nholes = trk->getNholes();
+
+    bool foundCaloState = false;
+    // Check if a TrackState at the calo surface exists
+    const std::vector<EVENT::TrackState*>& trackStates = trk->getTrackStates();
+    for (const auto& state : trackStates) {
+      if (state->getLocation() == EVENT::TrackState::AtCalorimeter) {
+        foundCaloState = true;
+        break;
+      }
+    }
+    if (_HasCaloState && !foundCaloState) { continue; }
 
     if(_BarrelOnly == true) {
       bool endcaphits = false;
