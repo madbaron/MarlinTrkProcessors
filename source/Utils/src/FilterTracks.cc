@@ -49,6 +49,12 @@ FilterTracks::FilterTracks()
 			     _NHitsOuter
 			      );
 
+  registerProcessorParameter("MaxHoles",
+		  	     "Maximum number of holes on track",
+			     _MaxHoles,
+			     _MaxHoles
+			      );
+
   registerProcessorParameter("MinPt",
 		  	     "Minimum transverse momentum",
 			     _MinPt,
@@ -132,6 +138,8 @@ void FilterTracks::processEvent( LCEvent * evt )
 
     float chi2spatial = trk->getChi2();
 
+    int nholes = trk->getNholes();
+
     if(_BarrelOnly == true) {
       bool endcaphits = false;
       for(int j=0; j<nhittotal; ++j) {
@@ -149,7 +157,8 @@ void FilterTracks::processEvent( LCEvent * evt )
 	 nhitinner    > _NHitsInner  &&
 	 nhitouter    > _NHitsOuter  &&
 	 pt           > _MinPt       &&
-	 chi2spatial  > _Chi2Spatial)
+	 chi2spatial  > _Chi2Spatial &&
+   nholes       <= _MaxHoles)
 	{ OutputTrackCollection->addElement(trk); }
     }
   }

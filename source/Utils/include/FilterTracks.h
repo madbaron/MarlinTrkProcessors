@@ -71,6 +71,9 @@ private:
    //! Cut off for number of hits in outer tracker (barrel and endcap combined)
    int _NHitsOuter = 1;
 
+   //! Cut off for maximum number of holes on track
+   int _MaxHoles = 0;
+
    //! Cut off for momentum (GeV)
    float _MinPt = 1.0;   //units GeV
 
