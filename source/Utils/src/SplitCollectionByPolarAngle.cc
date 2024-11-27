@@ -108,7 +108,7 @@ void SplitCollectionByPolarAngle::init() {
 }
 
 
-void SplitCollectionByPolarAngle::processRunHeader( LCRunHeader* run) {
+void SplitCollectionByPolarAngle::processRunHeader( LCRunHeader* ) {
 
   _nRun++ ;
 
@@ -116,7 +116,7 @@ void SplitCollectionByPolarAngle::processRunHeader( LCRunHeader* run) {
 
 
 
-void SplitCollectionByPolarAngle::processEvent( LCEvent * evt ) {
+void SplitCollectionByPolarAngle::processEvent( LCEvent * evt) {
 
   // --- Check whether the number of input and output collections match
 
@@ -332,7 +332,7 @@ void SplitCollectionByPolarAngle::processEvent( LCEvent * evt ) {
 
 
 
-void SplitCollectionByPolarAngle::check( LCEvent * evt ) {
+void SplitCollectionByPolarAngle::check( LCEvent * ) {
 }
 
 

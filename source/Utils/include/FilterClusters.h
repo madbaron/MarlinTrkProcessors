@@ -45,12 +45,12 @@ private:
    std::string _OutRelationCollection {};
 
    //! Ranges for theta
-   std::vector<std::string> _ThetaRanges;
+   std::vector<std::string> _ThetaRanges {};
 
    //! Cut-offs for cluster size in various theta ranges
-   std::vector<std::string> _ClusterSize;
+   std::vector<std::string> _ClusterSize {};
 
    //! Layers to be filtered
-   std::vector<std::string> _Layers;
+   std::vector<std::string> _Layers {};
 
 };

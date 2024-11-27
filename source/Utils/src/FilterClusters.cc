@@ -141,7 +141,6 @@ void FilterClusters::processEvent( LCEvent * evt )
       //Get hit subdetector/layer 
       std::string _encoderString = lcio::LCTrackerCellID::encoding_string();
       UTIL::CellIDDecoder<lcio::TrackerHit> decoder(_encoderString);
-      uint32_t systemID = decoder(trkhit)["system"];
       uint32_t layerID = decoder(trkhit)["layer"];
       bool filter_layer = false;
       for (size_t j=0; j<_Layers.size(); ++j){

@@ -30,8 +30,11 @@ protected:
 
   ///helper struct
   struct OutColInfo{
-    std::vector<size_t> layers ;
-    LCCollection* collection ;
+    OutColInfo(const OutColInfo&) = default;
+    OutColInfo& operator=(const OutColInfo&) = default;
+
+    std::vector<size_t> layers{} ;
+    LCCollection* collection{nullptr};
     OutColInfo() : layers(std::vector<size_t>(0)), collection(nullptr) {}
   };
 
@@ -51,7 +54,9 @@ protected:
 
 
   SplitCollectionByLayer() ;
-
+  SplitCollectionByLayer(const SplitCollectionByLayer&) = delete ;
+  SplitCollectionByLayer& operator=(const SplitCollectionByLayer&) = delete ;
+  
   virtual const std::string & name() const { return Processor::name() ; }
 
   /** Called at the begin of the job before anything is read.
@@ -79,20 +84,20 @@ protected:
  protected:
 
   ////Input collection name.
-  std::string _colName ;
+  std::string _colName {};
 
   /// Output collections and layers:
-  StringVec  _outColAndLayers ;
+  StringVec  _outColAndLayers {};
 
   /// Whether to add empty collections to the event
-  bool _addEmptyCollections ;
+  bool _addEmptyCollections{false} ;
 
-  std::map<std::string, OutColInfo> _outCols ;
+  std::map<std::string, OutColInfo> _outCols{} ;
 
-  HitType _type ;
+  HitType _type {};
 
-  int _nRun ;
-  int _nEvt ;
+  int _nRun {};
+  int _nEvt {};
 } ;
 
 #endif

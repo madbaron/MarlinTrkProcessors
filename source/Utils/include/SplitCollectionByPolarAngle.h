@@ -39,6 +39,8 @@ public:
 
 
   SplitCollectionByPolarAngle() ;
+  SplitCollectionByPolarAngle(const SplitCollectionByPolarAngle&) = delete ;
+  SplitCollectionByPolarAngle& operator=(const SplitCollectionByPolarAngle&) = delete ;
 
   virtual void init() ;
 
