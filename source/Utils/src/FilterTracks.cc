@@ -146,7 +146,6 @@ void FilterTracks::processEvent( LCEvent * evt )
 
     int nholes = trk->getNholes();
 
-    bool foundCaloState = false;
     // Check if a TrackState at the calo surface exists
     const std::vector<EVENT::TrackState*>& trackStates = trk->getTrackStates();
     const auto foundCaloState = std::find_if(trackStates.begin(), trackStates.end(), 
