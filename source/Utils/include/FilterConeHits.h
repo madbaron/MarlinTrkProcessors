@@ -39,6 +39,8 @@ class FilterConeHits : public Processor {
   
   
   FilterConeHits() ;
+  FilterConeHits(const FilterConeHits&) = delete;
+  FilterConeHits& operator=(const FilterConeHits&) = delete;
   
   virtual void init() ;
   

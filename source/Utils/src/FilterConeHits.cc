@@ -116,7 +116,7 @@ void FilterConeHits::init() {
 }
 
 
-void FilterConeHits::processRunHeader( LCRunHeader* run) { 
+void FilterConeHits::processRunHeader( LCRunHeader* ) {
 
   _nRun++ ;
 
@@ -391,7 +391,7 @@ void FilterConeHits::processEvent( LCEvent * evt ) {
 
 
 
-void FilterConeHits::check( LCEvent * evt ) { 
+void FilterConeHits::check( LCEvent * ) {
 }
 
 

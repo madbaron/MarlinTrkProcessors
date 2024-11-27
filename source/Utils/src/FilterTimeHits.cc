@@ -99,7 +99,7 @@ void FilterTimeHits::init()
     m_corrected_time = new TH1F("m_corrected_time", "Corrected time of the hit [ps]", 1000, -250., 250.);
 }
 
-void FilterTimeHits::processRunHeader(LCRunHeader *run)
+void FilterTimeHits::processRunHeader(LCRunHeader *)
 {
     _nRun++;
 }
@@ -326,7 +326,7 @@ void FilterTimeHits::processEvent(LCEvent *evt)
     _nEvt++;
 }
 
-void FilterTimeHits::check(LCEvent *evt)
+void FilterTimeHits::check(LCEvent *)
 {
 }
 

@@ -42,6 +42,8 @@ public:
     virtual Processor *newProcessor() { return new FilterTimeHits; }
 
     FilterTimeHits();
+    FilterTimeHits(const FilterTimeHits&) = delete;
+    FilterTimeHits& operator=(const FilterTimeHits&) = delete;
 
     virtual void init();
 

@@ -62,6 +62,8 @@ protected:
 
 
   FilterDoubleLayerHits() ;
+  FilterDoubleLayerHits(const FilterDoubleLayerHits&) = delete ;
+  FilterDoubleLayerHits& operator=(const FilterDoubleLayerHits&) = delete ;
 
   virtual const std::string & name() const { return Processor::name() ; }
 
@@ -92,40 +94,40 @@ protected:
   dd4hep::rec::Vector2D globalToLocal(long int cellID, const dd4hep::rec::Vector3D& posGlobal, dd4hep::rec::ISurface** surf) ;
 
   ////Input collection name.
-  std::string _inColName ;
+  std::string _inColName {};
 
   ////Output collection name.
-  std::string _outColName ;
+  std::string _outColName {};
 
   ////Maximum time difference between hits in a doublet
-  double _dtMax ;
+  double _dtMax {};
 
   ////Double layer cuts configuration
-  StringVec  _dlCutConfigs ;
+  StringVec  _dlCutConfigs {};
 
   ////Whether to fill diagnostic histograms
-  bool  _fillHistos ;
+  bool  _fillHistos {false};
 
   ////Subdetector name (needed to get the sensor surface manager)
-  std::string _subDetName ;
+  std::string _subDetName {};
 
-  std::vector<DoubleLayerCut> _dlCuts ;
+  std::vector<DoubleLayerCut> _dlCuts {};
 
   ////Surface map for getting local hit positions at sensor surface
-  const dd4hep::rec::SurfaceMap* _map ;
+  const dd4hep::rec::SurfaceMap* _map {nullptr};
 
 
   ////Array of flags for hits to be accepted
   bool _hitAccepted[NHITS_MAX] ;
 
   ////Map of vectors of hits grouped by position in the detector
-  std::map<SensorPosition, std::vector<size_t> > _hitsGrouped;
+  std::map<SensorPosition, std::vector<size_t> > _hitsGrouped{};
 
   ////Monitoring histograms
-  std::map<std::string, TH1*> _histos ;
+  std::map<std::string, TH1*> _histos {};
 
-  int _nRun ;
-  int _nEvt ;
+  int _nRun {};
+  int _nEvt {};
 } ;
 
 #endif
