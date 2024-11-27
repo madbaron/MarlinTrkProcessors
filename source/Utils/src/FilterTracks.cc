@@ -157,23 +157,25 @@ void FilterTracks::processEvent( LCEvent * evt )
     if(_BarrelOnly == true) {
       bool endcaphits = false;
       for(int j=0; j<nhittotal; ++j) {
-	//Find what subdetector the hit is on 
-	uint32_t systemID = decoder(trk->getTrackerHits()[j])["system"];
-	if(systemID == 2 || systemID == 4 || systemID == 6) {
-	  endcaphits = true;
-	  break;
-	}
+	      //Find what subdetector the hit is on 
+        uint32_t systemID = decoder(trk->getTrackerHits()[j])["system"];
+        if(systemID == 2 || systemID == 4 || systemID == 6) {
+          endcaphits = true;
+          break;
+        }
       }
       if(endcaphits == false) { OutputTrackCollection->addElement(trk); }
     } else { // track property cuts
       if(nhittotal    > _NHitsTotal  &&
-	 nhitvertex   > _NHitsVertex &&
-	 nhitinner    > _NHitsInner  &&
-	 nhitouter    > _NHitsOuter  &&
-	 pt           > _MinPt       &&
-	 chi2spatial  > _Chi2Spatial &&
-   nholes       <= _MaxHoles)
-	{ OutputTrackCollection->addElement(trk); }
+        nhitvertex   > _NHitsVertex &&
+        nhitinner    > _NHitsInner  &&
+        nhitouter    > _NHitsOuter  &&
+        pt           > _MinPt       &&
+        chi2spatial  > _Chi2Spatial &&
+        nholes       <= _MaxHoles)
+      { 
+        OutputTrackCollection->addElement(trk); 
+      }
     }
   }
 
