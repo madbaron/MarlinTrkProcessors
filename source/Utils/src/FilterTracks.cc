@@ -25,6 +25,12 @@ FilterTracks::FilterTracks()
 			     _BarrelOnly
 			      );  
   
+  registerProcessorParameter("HasCaloState",
+		  	     "If true, just keep tracks that have a TrackState at the Calorimeter surface",
+			     _HasCaloState,
+			     _HasCaloState
+			      );  
+
   registerProcessorParameter("NHitsTotal",
 		  	     "Minimum number of hits on track",
 			     _NHitsTotal,
@@ -47,6 +53,12 @@ FilterTracks::FilterTracks()
 		  	     "Minimum number of hits on outer tracker",
 			     _NHitsOuter,
 			     _NHitsOuter
+			      );
+
+  registerProcessorParameter("MaxHoles",
+		  	     "Maximum number of holes on track",
+			     _MaxHoles,
+			     _MaxHoles
 			      );
 
   registerProcessorParameter("MinPt",
@@ -132,25 +144,36 @@ void FilterTracks::processEvent( LCEvent * evt )
 
     float chi2spatial = trk->getChi2();
 
+    int nholes = trk->getNholes();
+
+    // Check if a TrackState at the calo surface exists
+    const std::vector<EVENT::TrackState*>& trackStates = trk->getTrackStates();
+    const auto foundCaloState = std::find_if(trackStates.begin(), trackStates.end(), 
+                                             [](const auto ts) { return ts->getLocation() == EVENT::TrackState::AtCalorimeter; }) != trackStates.end();
+    if (_HasCaloState && !foundCaloState) { continue; }
+
     if(_BarrelOnly == true) {
       bool endcaphits = false;
       for(int j=0; j<nhittotal; ++j) {
-	//Find what subdetector the hit is on 
-	uint32_t systemID = decoder(trk->getTrackerHits()[j])["system"];
-	if(systemID == 2 || systemID == 4 || systemID == 6) {
-	  endcaphits = true;
-	  break;
-	}
+	      //Find what subdetector the hit is on 
+        uint32_t systemID = decoder(trk->getTrackerHits()[j])["system"];
+        if(systemID == 2 || systemID == 4 || systemID == 6) {
+          endcaphits = true;
+          break;
+        }
       }
       if(endcaphits == false) { OutputTrackCollection->addElement(trk); }
     } else { // track property cuts
       if(nhittotal    > _NHitsTotal  &&
-	 nhitvertex   > _NHitsVertex &&
-	 nhitinner    > _NHitsInner  &&
-	 nhitouter    > _NHitsOuter  &&
-	 pt           > _MinPt       &&
-	 chi2spatial  > _Chi2Spatial)
-	{ OutputTrackCollection->addElement(trk); }
+        nhitvertex   > _NHitsVertex &&
+        nhitinner    > _NHitsInner  &&
+        nhitouter    > _NHitsOuter  &&
+        pt           > _MinPt       &&
+        chi2spatial  > _Chi2Spatial &&
+        nholes       <= _MaxHoles)
+      { 
+        OutputTrackCollection->addElement(trk); 
+      }
     }
   }
 
