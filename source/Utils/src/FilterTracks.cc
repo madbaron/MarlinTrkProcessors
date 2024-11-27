@@ -149,12 +149,9 @@ void FilterTracks::processEvent( LCEvent * evt )
     bool foundCaloState = false;
     // Check if a TrackState at the calo surface exists
     const std::vector<EVENT::TrackState*>& trackStates = trk->getTrackStates();
-    for (const auto& state : trackStates) {
-      if (state->getLocation() == EVENT::TrackState::AtCalorimeter) {
-        foundCaloState = true;
-        break;
-      }
-    }
+    const auto foundCaloState = std::find_if(trackStates.begin(), trackStates.end(), 
+                                             [](const auto ts) { return ts->getLocation() == EVENT::TrackState::AtCalorimeter) 
+                                != trackStates.end();
     if (_HasCaloState && !foundCaloState) { continue; }
 
     if(_BarrelOnly == true) {
