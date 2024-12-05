@@ -53,4 +53,6 @@ private:
    //! Layers to be filtered
    std::vector<std::string> _Layers {};
 
+  //!Number of bins in theta
+  std::string _ThetaBins;
 };
