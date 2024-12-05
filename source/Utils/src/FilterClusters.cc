@@ -192,31 +192,9 @@ void FilterClusters::processEvent(LCEvent *evt)
       {
         ymin = y_local;
       }
-      float cluster_size_y = (ymax - ymin)+1;
-      float cluster_size_x = (xmax - xmin)+1;
-      float cluster_size = rawHits.size();
-
-      //Get hit subdetector/layer 
-      std::string _encoderString = lcio::LCTrackerCellID::encoding_string();
-      UTIL::CellIDDecoder<lcio::TrackerHit> decoder(_encoderString);
-      uint32_t layerID = decoder(trkhit)["layer"];
-      bool filter_layer = false;
-
-      int rows = _Layers.size(), cols = std::stoi(_ThetaBins);
-      if((rows*cols != _ThetaRanges.size()) || (rows*(cols-1) != _ClusterSize.size())){
-	std::cout<<"Either theta cuts or cluster cuts not provided for each layer. Please change the config, exiting now..."<<std::endl;
-	return;
-      }
-      
-      std::vector<std::vector<float>> _thetaCuts_byLayer;
-      std::vector<std::vector<float>> _clusterSizeCuts_byLayer;
-
-      for (int k = 0; k < rows; ++k) {
-	std::vector<float> row;
-	for (int j = 0; j < cols; ++j) {
-	  row.push_back(std::stof(_ThetaRanges[j]));
-	}
-	_thetaCuts_byLayer.push_back(row);
+      if (y_local > ymax)
+      {
+        ymax = y_local;
       }
 
       if (x_local < xmin)
@@ -258,7 +236,7 @@ void FilterClusters::processEvent(LCEvent *evt)
       std::vector<float> row;
       for (int j = 0; j <= cols; ++j)
       {
-        row.push_back(std::stof(_ThetaRanges[j + k*(cols+1)]));
+        row.push_back(std::stof(_ThetaRanges[j + k * (cols + 1)]));
       }
       _thetaBins_byLayer.push_back(row);
     }
@@ -268,7 +246,7 @@ void FilterClusters::processEvent(LCEvent *evt)
       std::vector<float> row;
       for (int j = 0; j < cols; ++j)
       {
-        row.push_back(std::stof(_ClusterSize[j + k*cols]));
+        row.push_back(std::stof(_ClusterSize[j + k * cols]));
       }
       _clusterSizeCuts_byLayer.push_back(row);
     }
@@ -279,7 +257,7 @@ void FilterClusters::processEvent(LCEvent *evt)
       if (layerID == std::stof(_Layers[j]))
       {
         filter_layer = true;
-	layerInd = j;
+        layerInd = j;
         break;
       }
     }
@@ -310,9 +288,9 @@ void FilterClusters::processEvent(LCEvent *evt)
           streamlog_out(DEBUG0) << "cluster size: " << cluster_size << std::endl;
           if (cluster_size < _clusterSizeCuts_byLayer[layerInd][j])
           {
-	    store_hit = true;
+            store_hit = true;
             streamlog_out(DEBUG0) << "Adding reco/sim clusters and relation to output collections" << std::endl;
-	    break;
+            break;
           }
         }
       }
